@@ -19,7 +19,7 @@ docs_y = []
 for item in data['data']:
     for pattern in item['patterns']:
         splitword = nltk.word_tokenize(pattern)
-        words.extends(splitword)
+        words.extend(splitword)
         docs_x.append(splitword)
         docs_y.append(item['tag'])
 
