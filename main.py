@@ -29,4 +29,4 @@ for item in data['data']:
 words = [stemmer.stem(w.lower()) for w in words]
 words = sorted(list(set(words)))
 
-print("Trying someting")
+labels = sorted(labels)
