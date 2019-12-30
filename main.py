@@ -12,7 +12,7 @@ import pickle
 with open('data.json') as file:
     data = json.load(file)
 try:
-    with open('data.pickle', 'rb') as f:
+    with open('pickles/data.pickle', 'rb') as f:
         words, labels, training, output = pickle.load(f)
 except:
     words = []
@@ -60,7 +60,7 @@ except:
     training = numpy.array(training)
     output = numpy.array(output)
 
-    with open('data.pickle', 'wb') as f:
+    with open('pickles/data.pickle', 'wb') as f:
         pickle.dump((words, labels, training, output), f)
 
 tensorflow.reset_default_graph()
@@ -78,3 +78,36 @@ try:
 except:
     model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
     model.save("models/model.tflearn")
+
+def bag_of_words(s, words):
+    bag = [0 for _ in range(len(words))]
+
+    s_words = nltk.word_tokenize(s)
+    s_words = [stemmer.stem(word.lower()) for word in s_words]
+
+    for se in s_words:
+        for i, w in enumerate(words):
+            if w == se:
+                bag[i] = 1
+
+    return numpy.array(bag)
+
+def chat():
+    print('Start talking with the bot (type quit to stop)!')
+
+    while True:
+        inp = input('Response: ')
+        if inp.lower() == 'quit':
+            break
+
+        results = model.predict([bag_of_words(inp, words)])
+        results_index = numpy.argmax(results)
+        tag = labels[results_index]
+
+        for tg in data['data']:
+            if tg['tag'] == tag:
+                responses = tg['responses']
+
+        print(random.choice(responses))
+
+chat()
