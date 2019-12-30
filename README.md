@@ -2,6 +2,7 @@
 Python Deep Learning ChatBot
 
 Installation Guidence:
+
 *Please Note: This setup is applicable to CPU training model for low end computer system*
 
 1) Install Python 3.6.8 --> https://www.python.org/downloads/release/python-368/
